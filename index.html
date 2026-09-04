@@ -953,6 +953,23 @@
               </p>
             </div>
 
+            <div class="border border-slate-200 rounded-xl p-4 space-y-3">
+              <h4 class="text-xs font-bold uppercase text-slate-700 flex items-center gap-1.5 border-b border-slate-100 pb-1.5">
+                <i class="fa-solid fa-notes-medical text-emerald-700"></i>
+                <span data-i18n="clinicalHistory">Clinical History</span>
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-2 text-xs text-slate-700">
+                <p><strong data-i18n="chiefComplaint">Chief Complaint:</strong> <span id="sheet-history-complaint" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="hpi">HPI:</strong> <span id="sheet-hpi" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="pastMedicalSurgical">Past Medical / Surgical History:</strong> <span id="sheet-past-history" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="drugAllergy">Drug &amp; Allergy History:</strong> <span id="sheet-drug-allergy" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="familyHistory">Family History:</strong> <span id="sheet-family-history" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="personalHistory">Personal History:</strong> <span id="sheet-personal-history" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="reviewOfSystems">Review of Systems (ROS):</strong> <span id="sheet-ros" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="priorInvestigations">Prior Investigations Summary:</strong> <span id="sheet-investigations" data-i18n="notProvided">Not provided</span></p>
+              </div>
+            </div>
+
             <!-- Dual Clinical Columns: Allopathic & Ayush -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <!-- Card 1: Modern Clinical (SOAP) -->
@@ -1347,6 +1364,18 @@
         doctorAccessEyebrow: "ડોક્ટર ઍક્સેસ", doctorAccessTitle: "ડોક્ટર ટર્મિનલમાં સાઇન ઇન કરો", doctorAccessDescription: "દર્દીની માહિતી ખોલવા માટે ડોક્ટર પાસવર્ડ નાખો.", closeDoctorAccess: "ડોક્ટર સાઇન ઇન બંધ કરો", doctorPassword: "ડોક્ટર પાસવર્ડ", doctorPasswordPlaceholder: "પાસવર્ડ નાખો", doctorAuthError: "પાસવર્ડ ખોટો છે. ફરી પ્રયાસ કરો.", signIn: "સાઇન ઇન", signOut: "સાઇન આઉટ"
       });
 
+      const clinicalHistoryTranslations = {
+        en: { clinicalHistory: "Clinical History", hpi: "HPI", pastMedicalSurgical: "Past Medical / Surgical History", drugAllergy: "Drug & Allergy History", familyHistory: "Family History", personalHistory: "Personal History", reviewOfSystems: "Review of Systems (ROS)", priorInvestigations: "Prior Investigations Summary", notProvided: "Not provided" },
+        hi: { clinicalHistory: "मेडिकल जानकारी", hpi: "HPI (बीमारी की जानकारी)", pastMedicalSurgical: "पुरानी बीमारी / ऑपरेशन की जानकारी", drugAllergy: "दवाई और एलर्जी की जानकारी", familyHistory: "परिवार की बीमारी की जानकारी", personalHistory: "व्यक्तिगत जानकारी", reviewOfSystems: "अन्य लक्षण (ROS)", priorInvestigations: "पुरानी जाँच की जानकारी", notProvided: "जानकारी नहीं दी गई" },
+        hinglish: { clinicalHistory: "Medical history", hpi: "HPI (bimari ki details)", pastMedicalSurgical: "Purani bimari / surgery ki details", drugAllergy: "Dawa aur allergy ki details", familyHistory: "Family history", personalHistory: "Personal history", reviewOfSystems: "Baaki symptoms (ROS)", priorInvestigations: "Purani jaanch ki summary", notProvided: "Details nahi di gayi" },
+        pa: { clinicalHistory: "ਮੈਡੀਕਲ ਜਾਣਕਾਰੀ", hpi: "HPI (ਬਿਮਾਰੀ ਦੀ ਜਾਣਕਾਰੀ)", pastMedicalSurgical: "ਪੁਰਾਣੀ ਬਿਮਾਰੀ / ਓਪਰੇਸ਼ਨ ਦੀ ਜਾਣਕਾਰੀ", drugAllergy: "ਦਵਾਈ ਅਤੇ ਐਲਰਜੀ ਦੀ ਜਾਣਕਾਰੀ", familyHistory: "ਪਰਿਵਾਰ ਦੀ ਬਿਮਾਰੀ ਦੀ ਜਾਣਕਾਰੀ", personalHistory: "ਨਿੱਜੀ ਜਾਣਕਾਰੀ", reviewOfSystems: "ਹੋਰ ਲੱਛਣ (ROS)", priorInvestigations: "ਪੁਰਾਣੀਆਂ ਜਾਂਚਾਂ ਦਾ ਸਾਰ", notProvided: "ਜਾਣਕਾਰੀ ਨਹੀਂ ਦਿੱਤੀ" },
+        mr: { clinicalHistory: "वैद्यकीय माहिती", hpi: "HPI (आजाराची माहिती)", pastMedicalSurgical: "मागील आजार / शस्त्रक्रियेची माहिती", drugAllergy: "औषध आणि ऍलर्जीची माहिती", familyHistory: "कौटुंबिक आजारांची माहिती", personalHistory: "वैयक्तिक माहिती", reviewOfSystems: "इतर लक्षणे (ROS)", priorInvestigations: "मागील तपासण्यांचा सारांश", notProvided: "माहिती दिली नाही" },
+        gu: { clinicalHistory: "તબીબી માહિતી", hpi: "HPI (બીમારીની માહિતી)", pastMedicalSurgical: "જૂની બીમારી / ઓપરેશનની માહિતી", drugAllergy: "દવા અને એલર્જીની માહિતી", familyHistory: "પરિવારની બીમારીની માહિતી", personalHistory: "વ્યક્તિગત માહિતી", reviewOfSystems: "બીજા લક્ષણો (ROS)", priorInvestigations: "જૂની તપાસનો સાર", notProvided: "માહિતી આપવામાં આવી નથી" },
+      };
+      Object.keys(clinicalHistoryTranslations).forEach((language) => {
+        Object.assign(translations[language], clinicalHistoryTranslations[language]);
+      });
+
       let currentLanguage = "en";
       let languageModalPreviousFocus = null;
 
@@ -1674,6 +1703,15 @@
           age: age,
           gender: gender,
           complaint: complaint,
+          hpi: complaint,
+          pastMedicalSurgical: "Not provided",
+          drugAllergy: "No known drug allergies reported",
+          familyHistory: "Not provided",
+          personalHistory: "Not provided",
+          ros: "Not provided",
+          investigations: hasUploadedDocs
+            ? "Scanned Document Attached"
+            : "No prior investigations attached",
           hasRecords: hasUploadedDocs,
           ocrExtracted: hasUploadedDocs ? "Scanned Document Attached" : "None",
           agni: agni,
@@ -1809,6 +1847,22 @@
           record.complaint.slice(0, 50) + "...";
         document.getElementById("sheet-ocr-val").innerText =
           record.ocrExtracted;
+        document.getElementById("sheet-history-complaint").innerText =
+          record.complaint || t("notProvided");
+        document.getElementById("sheet-hpi").innerText =
+          record.hpi || record.complaint || t("notProvided");
+        document.getElementById("sheet-past-history").innerText =
+          record.pastMedicalSurgical || t("notProvided");
+        document.getElementById("sheet-drug-allergy").innerText =
+          record.drugAllergy || t("notProvided");
+        document.getElementById("sheet-family-history").innerText =
+          record.familyHistory || t("notProvided");
+        document.getElementById("sheet-personal-history").innerText =
+          record.personalHistory || t("notProvided");
+        document.getElementById("sheet-ros").innerText =
+          record.ros || t("notProvided");
+        document.getElementById("sheet-investigations").innerText =
+          record.investigations || record.ocrExtracted || t("notProvided");
 
         document.getElementById("sheet-agni-val").innerText = record.agni;
         document.getElementById("sheet-koshtha-val").innerText = record.koshtha;
