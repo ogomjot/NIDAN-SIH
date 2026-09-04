@@ -84,13 +84,22 @@
             </button>
             <button
               id="nav-btn-doctor"
-              onclick="switchAppView('doctor')"
+              onclick="requestDoctorAccess()"
               class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-emerald-300 hover:text-white transition flex items-center gap-1.5"
             >
               <i class="fa-solid fa-user-doctor"></i>
               <span data-i18n="doctorTerminal">Doctor Terminal</span>
             </button>
           </nav>
+          <button
+            type="button"
+            id="doctor-logout"
+            onclick="logoutDoctor()"
+            class="hidden px-2.5 py-2 rounded-lg text-xs font-semibold text-emerald-100 border border-emerald-700 hover:bg-[#2d6a4f] transition"
+            data-i18n="signOut"
+          >
+            Sign out
+          </button>
         </div>
       </div>
     </header>
@@ -219,6 +228,34 @@
             <span class="block text-xs text-slate-500 mt-0.5">સરળ ગુજરાતી</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <div
+      id="doctor-auth-modal"
+      class="hidden fixed inset-0 z-[110] bg-slate-950/50 px-4 py-6 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="doctor-auth-title"
+      aria-describedby="doctor-auth-description"
+    >
+      <div class="w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-2xl p-6" role="document">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-800" data-i18n="doctorAccessEyebrow">Doctor access</p>
+            <h2 id="doctor-auth-title" class="text-xl font-bold text-slate-900 mt-1" data-i18n="doctorAccessTitle">Sign in to Doctor Terminal</h2>
+            <p id="doctor-auth-description" class="text-xs text-slate-500 mt-2 leading-relaxed" data-i18n="doctorAccessDescription">Enter the doctor password to open patient records.</p>
+          </div>
+          <button type="button" onclick="closeDoctorAuthModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition" aria-label="Close doctor sign in" data-i18n-aria-label="closeDoctorAccess">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+        <form class="mt-5 space-y-3" onsubmit="authenticateDoctor(event)">
+          <label for="doctor-password" class="block text-xs font-semibold text-slate-700" data-i18n="doctorPassword">Doctor password</label>
+          <input type="password" id="doctor-password" autocomplete="current-password" required data-i18n-placeholder="doctorPasswordPlaceholder" placeholder="Enter password" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-emerald-600" />
+          <p id="doctor-auth-error" class="hidden text-xs text-red-700" role="alert" data-i18n="doctorAuthError">Incorrect password. Please try again.</p>
+          <button type="submit" class="w-full bg-[#1b4332] hover:bg-[#2d6a4f] text-white font-semibold py-2.5 rounded-xl text-xs transition" data-i18n="signIn">Sign in</button>
+        </form>
       </div>
     </div>
 
@@ -1291,6 +1328,25 @@
         agniQuestion: "1. ભૂખ અને પાચન (અગ્નિ)", normalSama: "સામાન્ય (સમ):", comfortableAppetite: "ભૂખ સારી રહે છે", sharpTikshna: "તીક્ષ્ણ:", burningAcidity: "બળતરા અને વધુ એસિડિટી", sluggishManda: "ધીમું (મંદ):", heavyLowHunger: "ભારેપણું, ઓછી ભૂખ", irregularVishama: "અનિયમિત (વિષમ):", gasVariable: "ગેસ, ક્યારેક ઓછો ક્યારેક વધારે", koshthaQuestion: "2. મળત્યાગની સ્થિતિ (કોષ્ઠ)", regular: "નિયમિત", onceDaily: "દિવસમાં 1 વાર", constipated: "કબજિયાત", hardStools: "સખત મળ", loose: "ઝાડા", frequent: "વારંવાર", nidraQuestion: "3. ઊંઘની ગુણવત્તા (નિદ્રા)", soundSamyak: "સારી ઊંઘ (સમ્યક):", restfulSleep: "7-8 કલાક આરામની ઊંઘ", interrupted: "તૂટેલી:", brokenSleep: "ઊંઘ વારંવાર તૂટે છે", insomnia: "અનિદ્રા:", tossingHours: "કલાકો સુધી ઊંઘ આવતી નથી", excessive: "વધારે ઊંઘ:", daytimeSleepiness: "દિવસે ઊંઘ આવે છે", generateToken: "OPD ટોકન બનાવો અને કતારમાં મોકલો"
       };
 
+      Object.assign(translations.en, {
+        doctorAccessEyebrow: "Doctor access", doctorAccessTitle: "Sign in to Doctor Terminal", doctorAccessDescription: "Enter the doctor password to open patient records.", closeDoctorAccess: "Close doctor sign in", doctorPassword: "Doctor password", doctorPasswordPlaceholder: "Enter password", doctorAuthError: "Incorrect password. Please try again.", signIn: "Sign in", signOut: "Sign out"
+      });
+      Object.assign(translations.hi, {
+        doctorAccessEyebrow: "डॉक्टर की पहुँच", doctorAccessTitle: "डॉक्टर टर्मिनल में जाएँ", doctorAccessDescription: "मरीज़ की जानकारी खोलने के लिए डॉक्टर का पासवर्ड डालें।", closeDoctorAccess: "डॉक्टर साइन इन बंद करें", doctorPassword: "डॉक्टर पासवर्ड", doctorPasswordPlaceholder: "पासवर्ड डालें", doctorAuthError: "पासवर्ड गलत है। फिर से कोशिश करें।", signIn: "साइन इन", signOut: "साइन आउट"
+      });
+      Object.assign(translations.hinglish, {
+        doctorAccessEyebrow: "Doctor access", doctorAccessTitle: "Doctor terminal mein sign in karein", doctorAccessDescription: "Patient records kholne ke liye doctor password daalein.", closeDoctorAccess: "Doctor sign in band karein", doctorPassword: "Doctor password", doctorPasswordPlaceholder: "Password daalein", doctorAuthError: "Password galat hai. Dobara try karein.", signIn: "Sign in", signOut: "Sign out"
+      });
+      Object.assign(translations.pa, {
+        doctorAccessEyebrow: "ਡਾਕਟਰ ਦੀ ਪਹੁੰਚ", doctorAccessTitle: "ਡਾਕਟਰ ਟਰਮੀਨਲ ਵਿੱਚ ਸਾਈਨ ਇਨ ਕਰੋ", doctorAccessDescription: "ਮਰੀਜ਼ ਦੀ ਜਾਣਕਾਰੀ ਖੋਲ੍ਹਣ ਲਈ ਡਾਕਟਰ ਪਾਸਵਰਡ ਪਾਓ।", closeDoctorAccess: "ਡਾਕਟਰ ਸਾਈਨ ਇਨ ਬੰਦ ਕਰੋ", doctorPassword: "ਡਾਕਟਰ ਪਾਸਵਰਡ", doctorPasswordPlaceholder: "ਪਾਸਵਰਡ ਪਾਓ", doctorAuthError: "ਪਾਸਵਰਡ ਗਲਤ ਹੈ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।", signIn: "ਸਾਈਨ ਇਨ", signOut: "ਸਾਈਨ ਆਉਟ"
+      });
+      Object.assign(translations.mr, {
+        doctorAccessEyebrow: "डॉक्टर प्रवेश", doctorAccessTitle: "डॉक्टर टर्मिनलमध्ये साइन इन करा", doctorAccessDescription: "रुग्णांची माहिती उघडण्यासाठी डॉक्टर पासवर्ड टाका.", closeDoctorAccess: "डॉक्टर साइन इन बंद करा", doctorPassword: "डॉक्टर पासवर्ड", doctorPasswordPlaceholder: "पासवर्ड टाका", doctorAuthError: "पासवर्ड चुकीचा आहे. पुन्हा प्रयत्न करा.", signIn: "साइन इन", signOut: "साइन आउट"
+      });
+      Object.assign(translations.gu, {
+        doctorAccessEyebrow: "ડોક્ટર ઍક્સેસ", doctorAccessTitle: "ડોક્ટર ટર્મિનલમાં સાઇન ઇન કરો", doctorAccessDescription: "દર્દીની માહિતી ખોલવા માટે ડોક્ટર પાસવર્ડ નાખો.", closeDoctorAccess: "ડોક્ટર સાઇન ઇન બંધ કરો", doctorPassword: "ડોક્ટર પાસવર્ડ", doctorPasswordPlaceholder: "પાસવર્ડ નાખો", doctorAuthError: "પાસવર્ડ ખોટો છે. ફરી પ્રયાસ કરો.", signIn: "સાઇન ઇન", signOut: "સાઇન આઉટ"
+      });
+
       let currentLanguage = "en";
       let languageModalPreviousFocus = null;
 
@@ -1359,6 +1415,11 @@
         .addEventListener("click", (event) => {
           if (event.target.id === "language-modal") closeLanguagePopup();
         });
+      document
+        .getElementById("doctor-auth-modal")
+        .addEventListener("click", (event) => {
+          if (event.target.id === "doctor-auth-modal") closeDoctorAuthModal();
+        });
       document.addEventListener("keydown", (event) => {
         if (
           event.key === "Escape" &&
@@ -1367,9 +1428,21 @@
             .classList.contains("hidden")
         )
           closeLanguagePopup();
+        if (
+          event.key === "Escape" &&
+          !document
+            .getElementById("doctor-auth-modal")
+            .classList.contains("hidden")
+        )
+          closeDoctorAuthModal();
       });
+          const doctorPassword = "swasthyam";
+          const doctorAuthStorageKey = "swasthyam-doctor-authenticated";
       const savedLanguage = localStorage.getItem(languageStorageKey);
       applyLanguage(savedLanguage || "en");
+      if (isDoctorAuthenticated()) {
+        document.getElementById("doctor-logout").classList.remove("hidden");
+      }
       if (!savedLanguage) openLanguagePopup();
 
       // State Store (Simulating temporary in-memory RAM cache with 45-minute TTL)
@@ -1399,8 +1472,57 @@
       let isRecordingActive = false;
       let countdownTimerRef = null;
 
+      function isDoctorAuthenticated() {
+        return sessionStorage.getItem(doctorAuthStorageKey) === "true";
+      }
+
+      function requestDoctorAccess() {
+        if (isDoctorAuthenticated()) {
+          switchAppView("doctor");
+          return;
+        }
+        openDoctorAuthModal();
+      }
+
+      function openDoctorAuthModal() {
+        const modal = document.getElementById("doctor-auth-modal");
+        modal.classList.remove("hidden");
+        document.getElementById("doctor-auth-error").classList.add("hidden");
+        document.getElementById("doctor-password").value = "";
+        document.getElementById("doctor-password").focus();
+      }
+
+      function closeDoctorAuthModal() {
+        document.getElementById("doctor-auth-modal").classList.add("hidden");
+      }
+
+      function authenticateDoctor(event) {
+        event.preventDefault();
+        const passwordInput = document.getElementById("doctor-password");
+        if (passwordInput.value !== doctorPassword) {
+          document.getElementById("doctor-auth-error").classList.remove("hidden");
+          passwordInput.select();
+          return;
+        }
+        document.getElementById("doctor-auth-error").classList.add("hidden");
+        sessionStorage.setItem(doctorAuthStorageKey, "true");
+        document.getElementById("doctor-logout").classList.remove("hidden");
+        closeDoctorAuthModal();
+        switchAppView("doctor");
+      }
+
+      function logoutDoctor() {
+        sessionStorage.removeItem(doctorAuthStorageKey);
+        document.getElementById("doctor-logout").classList.add("hidden");
+        switchAppView("patient");
+      }
+
       // View Switching
       function switchAppView(view) {
+        if (view === "doctor" && !isDoctorAuthenticated()) {
+          openDoctorAuthModal();
+          return;
+        }
         const patientFlow = document.getElementById("view-patient-flow");
         const doctorFlow = document.getElementById("view-doctor-flow");
         const btnPatient = document.getElementById("nav-btn-patient");
