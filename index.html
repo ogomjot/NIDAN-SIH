@@ -1438,11 +1438,9 @@
       });
           const doctorPassword = "swasthyam";
           const doctorAuthStorageKey = "swasthyam-doctor-authenticated";
+      sessionStorage.removeItem(doctorAuthStorageKey);
       const savedLanguage = localStorage.getItem(languageStorageKey);
       applyLanguage(savedLanguage || "en");
-      if (isDoctorAuthenticated()) {
-        document.getElementById("doctor-logout").classList.remove("hidden");
-      }
       if (!savedLanguage) openLanguagePopup();
 
       // State Store (Simulating temporary in-memory RAM cache with 45-minute TTL)
@@ -1453,6 +1451,8 @@
       let webSpeechRecognition = null;
       let isRecordingActive = false;
       let countdownTimerRef = null;
+
+      setInterval(cleanupExpiredRecords, 1000);
 
       function isDoctorAuthenticated() {
         return sessionStorage.getItem(doctorAuthStorageKey) === "true";
@@ -1714,6 +1714,30 @@
         document.getElementById("step-token-result").classList.add("hidden");
         document.getElementById("step-identity").classList.remove("hidden");
         document.getElementById("input-complaint").value = "";
+      }
+
+      function cleanupExpiredRecords() {
+        const expirationMs = 45 * 60 * 1000;
+        const now = Date.now();
+        const expiredTokens = memoryRegistry
+          .filter((record) => now - record.createdAt >= expirationMs)
+          .map((record) => record.token);
+
+        if (expiredTokens.length === 0) return;
+
+        memoryRegistry = memoryRegistry.filter(
+          (record) => !expiredTokens.includes(record.token),
+        );
+
+        if (selectedActiveToken && expiredTokens.includes(selectedActiveToken)) {
+          selectedActiveToken = null;
+          document.getElementById("doctor-case-details").classList.add("hidden");
+          document.getElementById("doctor-empty-state").classList.remove("hidden");
+        }
+
+        if (!document.getElementById("view-doctor-flow").classList.contains("hidden")) {
+          renderDoctorQueue();
+        }
       }
 
       // Doctor Queue & EMR Functions
