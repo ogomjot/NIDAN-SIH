@@ -757,7 +757,7 @@
             id="display-token-number"
             class="text-4xl font-extrabold text-emerald-900 tracking-wider font-mono mt-1"
           >
-            T-101
+            T-102
           </h3>
           <p class="text-xs text-slate-500 mt-1">
             Please proceed to the waiting area. You will be called by your token
@@ -818,7 +818,7 @@
             <input
               type="text"
               id="input-token-query"
-              placeholder="Enter Token Number (e.g. T-101)..."
+              placeholder="Enter Token Number (e.g. T-102)..."
               data-i18n-placeholder="tokenPlaceholder"
               class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg font-mono font-bold text-slate-800 text-sm uppercase outline-none focus:ring-2 focus:ring-emerald-700"
             />
@@ -910,7 +910,7 @@
                   <span
                     id="sheet-token-id"
                     class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded"
-                    >T-101</span
+                    >T-102</span
                   >
                   <span
                     id="sheet-abha-status"
@@ -1137,7 +1137,7 @@
           abhaPlaceholder: "e.g. yourname@abdm",
           complaintPlaceholder:
             "Type or use microphone (e.g. 4 din se pet me jalan aur acidity hai)...",
-          tokenPlaceholder: "Enter Token Number (e.g. T-101)...",
+          tokenPlaceholder: "Enter Token Number (e.g. T-102)...",
           prescriptionPlaceholder:
             "Doctor's notes / Advised Ayush Yoga / Prescription...",
           listening: "Listening... Speak clearly in your language.",
@@ -1211,7 +1211,7 @@
           abhaPlaceholder: "जैसे yourname@abdm",
           complaintPlaceholder:
             "लिखें या माइक से बोलें (जैसे 4 दिन से पेट में जलन और एसिडिटी है)...",
-          tokenPlaceholder: "टोकन नंबर डालें (जैसे T-101)...",
+          tokenPlaceholder: "टोकन नंबर डालें (जैसे T-102)...",
           prescriptionPlaceholder: "डॉक्टर की सलाह / आयुष योग / दवाई...",
           listening: "सुन रहे हैं... अपनी बात साफ़ बोलें।",
           voiceCaptured: "आवाज़ दर्ज हो गई। आप इसे जाँच या बदल सकते हैं।",
@@ -1283,7 +1283,7 @@
           abhaPlaceholder: "jaise yourname@abdm",
           complaintPlaceholder:
             "Likhein ya mic se bolein (jaise 4 din se pet mein jalan aur acidity hai)...",
-          tokenPlaceholder: "Token number daalein (jaise T-101)...",
+          tokenPlaceholder: "Token number daalein (jaise T-102)...",
           prescriptionPlaceholder: "Doctor ki advice / Ayush yoga / dawa...",
           listening: "Sun rahe hain... apni baat saaf boliye.",
           voiceCaptured:
@@ -1446,25 +1446,7 @@
       if (!savedLanguage) openLanguagePopup();
 
       // State Store (Simulating temporary in-memory RAM cache with 45-minute TTL)
-      let memoryRegistry = [
-        {
-          token: "T-101",
-          abha: "[Aadhaar/ABHA ID Redacted]",
-          name: "Ramesh Sharma",
-          age: 48,
-          gender: "Male",
-          lang: "hi-IN",
-          complaint:
-            "4 din se pet me tez jalan aur khatti dakar aa rahi hai, seene me bhari lagta hai",
-          hasRecords: true,
-          ocrExtracted:
-            "Previous Rx: Pantoprazole 40mg, Grade 1 Fatty Liver (2025)",
-          agni: "Tikshna",
-          koshtha: "Krura",
-          nidra: "Khandita",
-          createdAt: Date.now() - 6 * 60 * 1000, // created 6 minutes ago
-        },
-      ];
+      let memoryRegistry = [];
 
       let currentTokenCount = 101;
       let selectedActiveToken = null;
