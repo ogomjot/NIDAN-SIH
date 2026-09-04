@@ -1564,7 +1564,7 @@
       }
 
       function openDoctorAuthModal() {
-        const modal = ("doctor-auth-modal");
+        const modal = document.getElementById("doctor-auth-modal");
         modal.classList.remove("hidden");
         document.getElementById("doctor-auth-error").classList.add("hidden");
         document.getElementById("doctor-password").value = "";
