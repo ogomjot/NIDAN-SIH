@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Swasthyam | NIDAN Clinical Intake</title>
+    <title>NIDAN Clinical Intake</title>
     <!-- Tailwind CSS CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link
@@ -42,7 +43,7 @@
             <div class="flex items-center gap-2">
               <span
                 class="brand-serif tracking-wide text-xl font-semibold text-emerald-50"
-                >swasthyam.app</span
+                >NIDAN.app</span
               >
               <span
                 class="text-[10px] bg-emerald-800 text-emerald-200 uppercase px-2 py-0.5 rounded font-bold tracking-wider"
@@ -129,7 +130,7 @@
               class="text-xl font-bold text-slate-900 mt-1"
               data-i18n="languageTitle"
             >
-              How would you like to use Swasthyam?
+              How would you like to use NIDAN?
             </h2>
             <p
               id="language-modal-description"
@@ -330,7 +331,8 @@
             <input
               type="text"
               id="input-name"
-              value="Ramesh Sharma"
+              placeholder="Ramesh Sharma"
+              required
               class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs outline-none focus:ring-2 focus:ring-emerald-600"
             />
           </div>
@@ -345,7 +347,8 @@
               <input
                 type="number"
                 id="input-age"
-                value="48"
+                placeholder="48"
+                required
                 class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
@@ -357,6 +360,7 @@
               >
               <select
                 id="input-gender"
+                required
                 class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs outline-none bg-white"
               >
                 <option>Male</option>
@@ -391,6 +395,7 @@
               type="checkbox"
               id="consent-check"
               checked
+              required
               class="mt-0.5 rounded text-emerald-700 focus:ring-emerald-600"
             />
             <span data-i18n="consent"
@@ -726,8 +731,127 @@
             </label>
           </div>
         </div>
+                <!-- ======================================================== -->
+        <!-- Pain Duration & Physical Injury Assessment (Pure HTML/CSS) -->
+        <!-- ======================================================== -->
+        <fieldset class="border-t border-slate-200 pt-4 mt-4 space-y-4 text-slate-800 font-sans">
+          <legend class="text-xs font-bold uppercase tracking-wider text-[#1b4332]">
+            4.Pain & Physical Injury Assessment (दर्द और शारीरिक चोट)
+          </legend>
 
-        <button
+          <!-- 1. Pain / Hurting Duration -->
+          <div class="space-y-1.5">
+            <span class="block text-xs font-semibold text-slate-700">
+              How long have you been hurting? (दर्द कितने समय से है?)
+            </span>
+            
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <label class="border border-slate-200 rounded-xl p-2 text-center cursor-pointer hover:bg-slate-50 bg-white flex flex-col items-center">
+                <input type="radio" name="pain_onset_period" value="acute" checked class="text-[#1b4332] focus:ring-[#1b4332] mb-1">
+                <strong class="text-slate-800">Acute</strong>
+                <span class="text-[10px] text-slate-500">&lt; 48 hours</span>
+              </label>
+
+              <label class="border border-slate-200 rounded-xl p-2 text-center cursor-pointer hover:bg-slate-50 bg-white flex flex-col items-center">
+                <input type="radio" name="pain_onset_period" value="subacute" class="text-[#1b4332] focus:ring-[#1b4332] mb-1">
+                <strong class="text-slate-800">Subacute</strong>
+                <span class="text-[10px] text-slate-500">3–7 days</span>
+              </label>
+
+              <label class="border border-slate-200 rounded-xl p-2 text-center cursor-pointer hover:bg-slate-50 border-slate-200 flex flex-col items-center">
+                <input type="radio" name="pain_onset_period" value="chronic" class="text-[#1b4332] focus:ring-[#1b4332] mb-1">
+                <strong class="text-slate-800">Chronic</strong>
+                <span class="text-[10px] text-slate-500">&gt; 2 weeks</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 2. Physical Trauma / Injury Assessment -->
+          <!-- The class below uses Tailwind's arbitrary variant with :has() to toggle visibility with zero JS -->
+          <div class="space-y-2 [&:has(#toggle-injury:checked)_#injury-dropdown-group]:block">
+            <label for="toggle-injury" class="flex items-center gap-2 text-xs font-semibold text-slate-800 cursor-pointer p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50">
+              <input type="checkbox" id="toggle-injury" name="has_physical_injury" value="yes" class="w-4 h-4 rounded text-rose-600 focus:ring-rose-500">
+              <span>Patient has physical injury, fall, or blunt trauma (हाल ही में चोट या गिरना)</span>
+            </label>
+
+            <!-- Hidden by default; CSS :has() unhides this block immediately when the checkbox above is ticked -->
+            <div id="injury-dropdown-group" class="hidden space-y-2 pl-1 pt-1">
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <label class="block text-[11px] font-medium text-slate-500 mb-1">Mechanism / Cause (कारण)</label>
+                  <select name="injury_cause" class="w-full border border-slate-300 rounded-lg p-2 text-xs bg-white outline-none focus:border-[#1b4332]">
+                    <option value="blunt_trauma">Direct Blow / Blunt Impact (सीधी चोट)</option>
+                    <option value="slip_fall">Slip and Fall (फिसल कर गिरना)</option>
+                    <option value="joint_twist">Sprain / Joint Twist (मोच आना)</option>
+                    <option value="road_accident">Road Traffic Incident (दुर्घटना)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-medium text-slate-500 mb-1">Visible Signs (शारीरिक लक्षण)</label>
+                  <select name="injury_presentation" class="w-full border border-slate-300 rounded-lg p-2 text-xs bg-white outline-none focus:border-[#1b4332]">
+                    <option value="swelling_bruising">Swelling & Bruising (सूजन/नील)</option>
+                    <option value="weight_bearing_difficulty">Unable to bear weight (वजन न सह पाना)</option>
+                    <option value="open_laceration">Cut / Open Laceration (खुला घाव)</option>
+                    <option value="tenderness_only">Tenderness only (छूने पर दर्द)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Injury Short Description text field -->
+              <textarea 
+                name="injury_short_description" 
+                rows="2" 
+                placeholder="Brief description of the injury (e.g. Fell down 3 stairs, right wrist pain and localized swelling)..." 
+                class="w-full border border-slate-300 rounded-lg p-2 text-xs outline-none focus:ring-1 focus:ring-[#1b4332] placeholder-slate-400 bg-white"
+              ></textarea>
+            </div>
+          </div>
+        </fieldset>
+
+
+      
+              <!-- Question 4: Family Medical History (Pure HTML & CSS - No JS) -->
+        <div class="space-y-2 [&:has(#radio-family-other:checked)_#family-other-container]:block">
+          <label class="block text-xs font-bold text-slate-800">
+            5. Family Medical History (पारिवारिक स्वास्थ्य इतिहास / कुलज रोग)
+          </label>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+              <input type="radio" name="radio_family" value="None" checked class="mt-0.5 text-emerald-700">
+              <span><strong>No History (सामान्य):</strong> No major diseases in family</span>
+            </label>
+
+            <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+              <input type="radio" name="radio_family" value="Diabetes" class="mt-0.5 text-emerald-700">
+              <span><strong>Diabetes (मधुमेह):</strong> High blood sugar / Sugar</span>
+            </label>
+
+            <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+              <input type="radio" name="radio_family" value="Hypertension" class="mt-0.5 text-emerald-700">
+              <span><strong>Hypertension (उच्च रक्तचाप):</strong> High BP / Heart issue</span>
+            </label>
+
+            <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+              <input type="radio" name="radio_family" id="radio-family-other" value="Other" class="mt-0.5 text-emerald-700">
+              <span><strong>Other (अन्य):</strong> Specify custom condition below</span>
+            </label>
+          </div>
+
+          
+
+          <!-- Hidden by default; CSS :has() reveals it instantly when #radio-family-other is checked -->
+          <div id="family-other-container" class="hidden pt-1">
+            <input 
+              type="text" 
+              name="family_other_notes" 
+              placeholder="Type custom disease (e.g. Thyroid, Asthma, Cancer, Arthritis)..." 
+              class="w-full border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:ring-2 focus:ring-emerald-600 placeholder-slate-400"
+            >
+          </div>
+        </div>
+                <button
           type="button"
           onclick="submitPatientRecord()"
           class="w-full bg-[#1b4332] hover:bg-[#2d6a4f] text-white font-bold py-3 rounded-xl text-xs shadow-sm transition flex items-center justify-center gap-2"
@@ -736,7 +860,6 @@
           <span data-i18n="generateToken">Generate OPD Token & Send to Queue</span>
         </button>
       </section>
-
       <!-- Step 4: Token Assigned Card (Live 45-minute countdown) -->
       <section
         id="step-token-result"
@@ -962,7 +1085,7 @@
                 <p><strong data-i18n="chiefComplaint">Chief Complaint:</strong> <span id="sheet-history-complaint" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="hpi">HPI:</strong> <span id="sheet-hpi" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="pastMedicalSurgical">Past Medical / Surgical History:</strong> <span id="sheet-past-history" data-i18n="notProvided">Not provided</span></p>
-                <p><strong data-i18n="drugAllergy">Drug &amp; Allergy History:</strong> <span id="sheet-drug-allergy" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="Allergy">&amp; Allergy History:</strong> <span id="sheet--allergy" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="familyHistory">Family History:</strong> <span id="sheet-family-history" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="personalHistory">Personal History:</strong> <span id="sheet-personal-history" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="reviewOfSystems">Review of Systems (ROS):</strong> <span id="sheet-ros" data-i18n="notProvided">Not provided</span></p>
@@ -1096,6 +1219,7 @@
     <!-- APPLICATION SCRIPTS (Vanilla JS, Web Speech, Queue & In-Memory State)      -->
     <!-- ========================================================================= -->
     <script>
+  
       const languageStorageKey = "swasthyam-language";
       const translations = {
         en: {
@@ -1376,6 +1500,73 @@
         Object.assign(translations[language], clinicalHistoryTranslations[language]);
       });
 
+
+      const GEMINI_API_KEY = "AQ.Ab8RN6IxRo2_0CFm3I3K16xF1M6YT8ZgsdpfA954TkuTBnaikA";
+      const GEMINI_MODEL = "gemini-2.5-flash";
+      
+      async function generateAiSynopsis(record) {
+        const synopsisElement = document.getElementById("sheet-synopsis-text");
+        synopsisElement.innerText = "Generating AI synopsis...";
+      
+        const prompt = `
+      Create a concise clinical intake synopsis in one or two sentences.
+      Do not diagnose or recommend treatment. Summarize only the submitted information.
+      
+      Patient age: ${record.age}
+      Gender: ${record.gender}
+      Chief complaint: ${record.complaint}
+      HPI: ${record.hpi}
+      Past medical/surgical history: ${record.pastMedicalSurgical}
+      Drug/allergy history: ${record.drugAllergy}
+      Family history: ${record.familyHistory}
+      Personal history: ${record.personalHistory}
+      ROS: ${record.ros}
+      Prior investigations: ${record.investigations}
+      Agni: ${record.agni}
+      Koshtha: ${record.koshtha}
+      Nidra: ${record.nidra}
+      `;
+      
+        try {
+          const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                contents: [
+                  {
+                    parts: [{ text: prompt }],
+                  },
+                ],
+                generationConfig: {
+                  temperature: 0.2,
+                  maxOutputTokens: 120,
+                },
+              }),
+            },
+          );
+      
+          if (!response.ok) {
+            throw new Error("Gemini request failed");
+          }
+      
+          const result = await response.json();
+          const synopsis =
+            result.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+      
+          synopsisElement.innerText =
+            synopsis || "AI synopsis could not be generated.";
+        } catch (error) {
+          console.error("Gemini synopsis error:", error);
+          synopsisElement.innerText = "AI synopsis could not be generated.";
+        }
+      }
+    
+
+      
       let currentLanguage = "en";
       let languageModalPreviousFocus = null;
 
@@ -1888,8 +2079,8 @@
         document.getElementById("sheet-severity-val").innerText =
           t("moderateRoutine");
 
-        document.getElementById("sheet-synopsis-text").innerText =
-          `Patient presents with chief complaint: "${record.complaint}". Ayurvedic evaluation indicates ${record.agni} Agni and ${record.koshtha} bowel tendencies.`;
+        generateAiSynopsis(record);
+        
       }
 
       function approveAndPurgeRecord() {
@@ -1910,5 +2101,18 @@
         renderDoctorQueue();
       }
     </script>
+
+ 
+
+  <!-- Hidden by default; CSS :has() reveals it instantly when #radio-family-other is checked -->
+  <div id="family-other-container" class="hidden pt-1">
+    <input 
+      type="text" 
+      name="family_other_notes" 
+      placeholder="Type custom disease (e.g. Thyroid, Asthma, Cancer, Arthritis)..." 
+      class="w-full border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:ring-2 focus:ring-emerald-600 placeholder-slate-400"
+    >
+  </div>
+</div>
   </body>
 </html>

@@ -1,6 +1,7 @@
 """Small local-only OCR demo for Swasthyam Nidan."""
 
 from pathlib import Path
+import shutil
 
 import cv2
 import numpy as np
@@ -13,7 +14,11 @@ app = Flask(__name__)
 
 # Windows: install Tesseract with its installer, then uncomment and adjust this line.
 # Linux/WSL: sudo apt install tesseract-ocr
-# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+tesseract_path = shutil.which("tesseract")
+if not tesseract_path and Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe").exists():
+    tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+if tesseract_path:
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 
 def preprocess_image(image: np.ndarray) -> np.ndarray:
