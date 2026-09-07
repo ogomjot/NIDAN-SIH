@@ -130,7 +130,7 @@
               class="text-xl font-bold text-slate-900 mt-1"
               data-i18n="languageTitle"
             >
-              How would you like to use NIDAN?
+              How would you like to use NIDANpush?
             </h2>
             <p
               id="language-modal-description"
@@ -477,6 +477,18 @@
           >
             Tap the mic to talk in Hindi, Hinglish, or regional speech.
           </p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="input-allergy" class="block text-xs font-semibold text-slate-700">
+            Do you have any medicine or food allergy? (क्या आपको किसी दवा या खाने से एलर्जी है?)
+          </label>
+          <input
+            type="text"
+            id="input-allergy"
+            placeholder="Write the allergy or type 'None'"
+            class="w-full border border-slate-300 rounded-xl p-3 text-xs text-slate-800 placeholder-slate-400 outline-none focus:ring-2 focus:ring-emerald-600"
+          />
         </div>
 
         <!-- Document OCR Scanner Card -->
@@ -1085,11 +1097,9 @@
                 <p><strong data-i18n="chiefComplaint">Chief Complaint:</strong> <span id="sheet-history-complaint" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="hpi">HPI:</strong> <span id="sheet-hpi" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="pastMedicalSurgical">Past Medical / Surgical History:</strong> <span id="sheet-past-history" data-i18n="notProvided">Not provided</span></p>
-                <p><strong data-i18n="Allergy">&amp; Allergy History:</strong> <span id="sheet--allergy" data-i18n="notProvided">Not provided</span></p>
+                <p><strong data-i18n="Allergy">&amp; Allergy History:</strong> <span id="sheet-drug-allergy" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="familyHistory">Family History:</strong> <span id="sheet-family-history" data-i18n="notProvided">Not provided</span></p>
                 <p><strong data-i18n="personalHistory">Personal History:</strong> <span id="sheet-personal-history" data-i18n="notProvided">Not provided</span></p>
-                <p><strong data-i18n="reviewOfSystems">Review of Systems (ROS):</strong> <span id="sheet-ros" data-i18n="notProvided">Not provided</span></p>
-                <p><strong data-i18n="priorInvestigations">Prior Investigations Summary:</strong> <span id="sheet-investigations" data-i18n="notProvided">Not provided</span></p>
               </div>
             </div>
 
@@ -1520,8 +1530,6 @@
       Drug/allergy history: ${record.drugAllergy}
       Family history: ${record.familyHistory}
       Personal history: ${record.personalHistory}
-      ROS: ${record.ros}
-      Prior investigations: ${record.investigations}
       Agni: ${record.agni}
       Koshtha: ${record.koshtha}
       Nidra: ${record.nidra}
@@ -1661,7 +1669,6 @@
       sessionStorage.removeItem(doctorAuthStorageKey);
       const savedLanguage = localStorage.getItem(languageStorageKey);
       applyLanguage(savedLanguage || "en");
-      if (!savedLanguage) openLanguagePopup();
 
       // State Store (Simulating temporary in-memory RAM cache with 45-minute TTL)
       let memoryRegistry = [];
@@ -1783,6 +1790,7 @@
       }
 
       // Upload & OCR Toggle
+      const DEMO_OCR_MODE = true;
       let hasUploadedDocs = false;
       function toggleRecordUpload(enabled) {
         hasUploadedDocs = enabled;
@@ -1814,19 +1822,29 @@
         const formData = new FormData();
         formData.append("image", file);
         badge.classList.remove("hidden");
+
+        if (DEMO_OCR_MODE) {
+          badgeText.innerText = `It is done and the file is read (${file.name}).`;
+          return;
+        }
+
         badgeText.innerText = `Reading ${file.name}...`;
 
         fetch("/api/ocr", { method: "POST", body: formData })
           .then(async (response) => {
             const html = await response.text();
-            if (!response.ok) throw new Error("OCR failed");
             const result = new DOMParser().parseFromString(html, "text/html");
+            if (!response.ok) {
+              throw new Error(
+                result.body.textContent.trim() || "OCR could not read this image."
+              );
+            }
             const extractedText = result.querySelector("pre")?.textContent.trim();
             if (!extractedText) throw new Error("OCR returned no text");
-            badgeText.innerText = `OCR Digitized (${file.name}): ${extractedText}`;
+            badgeText.innerText = `It is done and the file is read (${file.name}): ${extractedText}`;
           })
-          .catch(() => {
-            badgeText.innerText = "Couldn't read that image.";
+          .catch((error) => {
+            badgeText.innerText = error.message || "OCR could not read this image.";
           });
       }
 
@@ -1889,6 +1907,9 @@
         const complaint =
           document.getElementById("input-complaint").value.trim() ||
           "Mild gastrointestinal distress";
+        const drugAllergy =
+          document.getElementById("input-allergy").value.trim() ||
+          "No known drug or food allergies reported";
         const abha =
           document.getElementById("input-abha").value || "Self-Declared";
 
@@ -1911,13 +1932,9 @@
           complaint: complaint,
           hpi: complaint,
           pastMedicalSurgical: "Not provided",
-          drugAllergy: "No known drug allergies reported",
+          drugAllergy: drugAllergy,
           familyHistory: "Not provided",
           personalHistory: "Not provided",
-          ros: "Not provided",
-          investigations: hasUploadedDocs
-            ? "Scanned Document Attached"
-            : "No prior investigations attached",
           hasRecords: hasUploadedDocs,
           ocrExtracted: hasUploadedDocs ? "Scanned Document Attached" : "None",
           agni: agni,
@@ -2065,11 +2082,6 @@
           record.familyHistory || t("notProvided");
         document.getElementById("sheet-personal-history").innerText =
           record.personalHistory || t("notProvided");
-        document.getElementById("sheet-ros").innerText =
-          record.ros || t("notProvided");
-        document.getElementById("sheet-investigations").innerText =
-          record.investigations || record.ocrExtracted || t("notProvided");
-
         document.getElementById("sheet-agni-val").innerText = record.agni;
         document.getElementById("sheet-koshtha-val").innerText = record.koshtha;
         document.getElementById("sheet-nidra-val").innerText = record.nidra;

@@ -12,11 +12,14 @@ from flask import Flask, Response, request, send_from_directory
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
 
-# Windows: install Tesseract with its installer, then uncomment and adjust this line.
-# Linux/WSL: sudo apt install tesseract-ocr
+# Windows: install Tesseract with its installer. Linux/WSL: install tesseract-ocr.
 tesseract_path = shutil.which("tesseract")
-if not tesseract_path and Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe").exists():
-    tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+for candidate in (
+    Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe"),
+    Path(r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"),
+):
+    if not tesseract_path and candidate.exists():
+        tesseract_path = str(candidate)
 if tesseract_path:
     pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
@@ -80,8 +83,16 @@ def extract_text() -> Response:
             "<main><h1>Extracted text</h1><pre>" + escaped + "</pre><p><a href='/'>Try another image</a></p></main>",
             mimetype="text/html",
         )
+    except pytesseract.pytesseract.TesseractNotFoundError:
+        return Response(
+            "<p>OCR is unavailable. Install Tesseract OCR and restart the app.</p>",
+            status=503,
+            mimetype="text/html",
+        )
+    except ValueError:
+        return Response("<p>The uploaded file is not a readable image.</p>", status=422, mimetype="text/html")
     except Exception:
-        return Response("<p>Couldn't read that image.</p>", status=422, mimetype="text/html")
+        return Response("<p>OCR could not read this image. Try a clearer photo.</p>", status=422, mimetype="text/html")
 
 
 if __name__ == "__main__":
