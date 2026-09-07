@@ -1979,5 +1979,43 @@
         renderDoctorQueue();
       }
     </script>
+<!-- Question 4: Family Medical History (Pure HTML & CSS - No JS) -->
+<div class="space-y-2 [&:has(#radio-family-other:checked)_#family-other-container]:block">
+  <label class="block text-xs font-bold text-slate-800">
+    4. Family Medical History (पारिवारिक स्वास्थ्य इतिहास / कुलज रोग)
+  </label>
+
+  <div class="grid grid-cols-2 gap-2 text-xs">
+    <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+      <input type="radio" name="radio_family" value="None" checked class="mt-0.5 text-emerald-700">
+      <span><strong>No History (सामान्य):</strong> No major diseases in family</span>
+    </label>
+
+    <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+      <input type="radio" name="radio_family" value="Diabetes" class="mt-0.5 text-emerald-700">
+      <span><strong>Diabetes (मधुमेह):</strong> High blood sugar / Sugar</span>
+    </label>
+
+    <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+      <input type="radio" name="radio_family" value="Hypertension" class="mt-0.5 text-emerald-700">
+      <span><strong>Hypertension (उच्च रक्तचाप):</strong> High BP / Heart issue</span>
+    </label>
+
+    <label class="border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-200 flex items-start gap-2 bg-white">
+      <input type="radio" name="radio_family" id="radio-family-other" value="Other" class="mt-0.5 text-emerald-700">
+      <span><strong>Other (अन्य):</strong> Specify custom condition below</span>
+    </label>
+  </div>
+
+  <!-- Hidden by default; CSS :has() reveals it instantly when #radio-family-other is checked -->
+  <div id="family-other-container" class="hidden pt-1">
+    <input 
+      type="text" 
+      name="family_other_notes" 
+      placeholder="Type custom disease (e.g. Thyroid, Asthma, Cancer, Arthritis)..." 
+      class="w-full border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:ring-2 focus:ring-emerald-600 placeholder-slate-400"
+    >
+  </div>
+</div>
   </body>
 </html>
